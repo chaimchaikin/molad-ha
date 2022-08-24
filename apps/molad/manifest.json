@@ -1,6 +1,7 @@
 {
   "domain": "molad",
   "name": "Molad",
+  "version": "0.1",
   "documentation": "https://github.com/chaimchaikin/molad-hacs",
   "dependencies": [],
   "codeowners": [],
