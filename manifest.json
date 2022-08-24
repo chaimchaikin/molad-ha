@@ -1,0 +1,9 @@
+{
+  "domain": "molad",
+  "name": "Molad",
+  "documentation": "https://github.com/chaimchaikin/molad-hacs",
+  "dependencies": [],
+  "codeowners": [],
+  "requirements": [],
+  "iot_class": "local_push"
+}
