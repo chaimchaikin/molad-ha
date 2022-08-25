@@ -4,7 +4,7 @@
 Molad Sensor for [HACS](https://github.com/hacs/integration)
 
 ## Installation
-Use [HACS](https://github.com/hacs/integration) download the molad directory from inside the apps directory here to your local apps directory
+Use [HACS](https://github.com/hacs/integration) (with AppDaemon enabled) or download the molad directory from inside the apps directory here to your local apps directory
 
 ## Usage
 No configuration is required. The timezone and location are fetched from your Home Assistant configuration.]
