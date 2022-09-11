@@ -1,4 +1,3 @@
-import appdaemon.plugins.hass.hassapi as hass
 import math
 import hdate
 from hdate import Location
@@ -7,11 +6,12 @@ import hdate.htables
 import hdate.converters
 import datetime
 
-class Molad(hass.Hass):
+class Molad():
 
-    def initialize(self):
-        self.refresh_molad();
-        self.run_hourly(self.refresh_molad_task, datetime.time(0, 0, 0));
+    config = undefined
+
+    def initialize(self, config):
+        self.config = config;
 
     def sumup(self, multipliers): # event handler for any one of the multipliers
         shifts = [[2,5,204],[2,16,595],[4,8,876],[5,21,589],[1,12,793]];
@@ -229,23 +229,14 @@ class Molad(hass.Hass):
 
     def get_current_location(self) -> Location:
         return Location(
-            latitude=self.get_plugin_config()['latitude'],
-            longitude=self.get_plugin_config()['longitude'],
-            timezone=self.get_plugin_config()['time_zone'],
+            latitude=self.config['latitude'],
+            longitude=self.config['longitude'],
+            timezone=self.config['time_zone'],
             diaspora=True,
         )
 
-    def refresh_molad_task(self, event):
-        return self.refresh_molad()
-
-    def refresh_molad(self):
-        d = datetime.date.today()
-
-        m = self.get_molad(d)
-        rc = self.get_rosh_chodesh_days(d)
-        sm = self.is_shabbos_mevorchim(d)
-
-        self.set_state('sensor.molad', state=m['text'], attributes={
+    def get_attributes(m, sm, rc):
+        return {
             'icon': 'mdi:moon-waxing-crescent',
             'friendly_name': 'Molad',
             'period': m['period'],
@@ -259,8 +250,4 @@ class Molad(hass.Hass):
             'rosh_chodesh_days': rc['days'],
             'is_shabbos_mevorchim': sm,
             'month_name': rc['month'],
-        }, replace=True)
-
-        self.set_state('sensor.is_shabbos_mevorchim', state=sm);
-
-        self.log('Molad Refreshed')
+        }
