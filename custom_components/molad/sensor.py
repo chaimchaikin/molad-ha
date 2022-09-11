@@ -5,7 +5,7 @@ from molad import Molad
 
 _LOGGER = logging.getLogger(__name__)
 
-version = "0.1"
+version = "0.2.1"
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
@@ -18,14 +18,6 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
         MoladSensor(hass, config),
         # IsShabbosMevorchimSensor(hass, config),
     ]
-
-    for resource in config[CONF_RESOURCES]:
-        sensor_type = resource.lower()
-        if sensor_type not in SENSOR_TYPES:
-            SENSOR_TYPES[sensor_type] = [sensor_type.title(), "", "mdi:flash"]
-        entities.append(
-            Molad(config)
-        )
 
     async_add_entities(entities, False)
 
