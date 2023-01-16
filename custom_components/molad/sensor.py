@@ -31,7 +31,6 @@ class BaseSensor(Entity):
 
     def __init__(self, id, hass):
         """Initialize the sensor"""
-        self.type = "test"
         self.entity_id = async_generate_entity_id(
             ENTITY_ID_FORMAT,
             id,
