@@ -17,7 +17,7 @@ class Molad:
     def __init__(self, config):
         self.config = config
 
-    def sumup(self, multipliers):  # event handler for any one of the multipliers
+    def sumup(self, multipliers):
         shifts = [
             [2, 5, 204],  # starting point
             [2, 16, 595],  # 19-year cycle
@@ -27,13 +27,10 @@ class Molad:
         ]
         mults = []
         mults.append(multipliers)
-        out00 = self.multiply_matrix(mults, shifts)
-        # --> 1x3 triplet
+        out00 = self.multiply_matrix(mults, shifts)  # --> 1x3 triplet
         out0 = out00[0]
-        # now need to reduce by carrying
-        out1 = self.carry_and_reduce(out0)
-        out2 = self.convert_to_english(out1)
-        # convert to English date/time
+        out1 = self.carry_and_reduce(out0)  # now need to reduce by carrying
+        out2 = self.convert_to_english(out1)  # convert to English date/time
         return out2
 
     def multiply_matrix(self, matrix1, matrix2):
@@ -106,8 +103,6 @@ class Molad:
         daynm = days[day - 1]
         pm = "am"
 
-        hournm = "morning" if (hours < 12) else ("afternoon" if hours < 18 else "night")
-
         if hours >= 12:
             pm = "pm"
             hours = hours - 12
@@ -122,8 +117,6 @@ class Molad:
 
         friendly = (
             str(daynm)
-            + " "
-            + str(hournm)
             + ", "
             + str(hours)
             + ":"
@@ -138,11 +131,10 @@ class Molad:
 
         out = {
             "text": friendly,
-            "period": hournm,
             "day": daynm,
             "hours": hours,
             "minutes": minutes,
-            "am/pm": pm,
+            "am_or_pm": pm,
             "chalakim": chalakim,
         }
         return out
@@ -176,7 +168,9 @@ class Molad:
         multipliers.append(cycles)
         multipliers.append(regular)
         multipliers.append(leap)
-        multipliers.append(month - 1)  # for the beginning of the month, so Tishrei is 0, etc.
+        multipliers.append(
+            month - 1
+        )  # for the beginning of the month, so Tishrei is 0, etc.
         return self.sumup(multipliers)
 
     def get_numeric_month_year(self, date, changeAdarOrder=True):
@@ -289,11 +283,10 @@ class Molad:
         return {
             "icon": "mdi:moon-waxing-crescent",
             "friendly_name": "Molad",
-            "period": m["period"],
             "day": m["day"],
             "hours": m["hours"],
             "minutes": m["minutes"],
-            "am/pm": m["am/pm"],
+            "am_or_pm": m["am_or_pm"],
             "chalakim": m["chalakim"],
             "friendly": m["text"],
             "rosh_chodesh": rc["text"],
