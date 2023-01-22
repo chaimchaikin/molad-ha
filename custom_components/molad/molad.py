@@ -1,10 +1,13 @@
+import logging
+import datetime
 import math
 import hdate
 from hdate import Location
 import hdate.common
 import hdate.htables
 import hdate.converters
-import datetime
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class Molad:
@@ -15,7 +18,13 @@ class Molad:
         self.config = config
 
     def sumup(self, multipliers):  # event handler for any one of the multipliers
-        shifts = [[2, 5, 204], [2, 16, 595], [4, 8, 876], [5, 21, 589], [1, 12, 793]]
+        shifts = [
+            [2, 5, 204],  # starting point
+            [2, 16, 595],  # 19-year cycle
+            [4, 8, 876],  # regular year
+            [5, 21, 589],  # leap year
+            [1, 12, 793],  # month
+        ]
         mults = []
         mults.append(multipliers)
         out00 = self.multiply_matrix(mults, shifts)
@@ -110,7 +119,8 @@ class Molad:
         filler = "0" if (leng == 1) else ""
         # like the 0 in 3:01
         hours = 12 if (hours == 0) else hours
-        out2 = (
+
+        friendly = (
             str(daynm)
             + " "
             + str(hournm)
@@ -127,7 +137,7 @@ class Molad:
         )
 
         out = {
-            "text": out2,
+            "text": friendly,
             "period": hournm,
             "day": daynm,
             "hours": hours,
@@ -143,20 +153,19 @@ class Molad:
         month = d["month"]
 
         guachadazat = [3, 6, 8, 11, 14, 17, 19]
-        cycles = math.floor(year / 19)
-        # 19-year cycles
-        yrs = year % 19
-        # leftover years
-        isleap = yrs in guachadazat
-        # is this year a leap year?
+        cycles = math.floor(year / 19)  # 19-year cycles
+        yrs = year % 19  # leftover years
+        isleap = yrs in guachadazat  # is this year a leap year?
+
         # need to convert month number - one less for regular years, after Adar
         if (not isleap) and (month > 6):
             month = month - 1
+
         regular = 0
         leap = 0
 
         for ii in range(yrs - 1):  # for years _prior_ to this one
-            if ii in guachadazat:
+            if (ii + 1) in guachadazat:
                 leap = leap + 1
             else:
                 regular = regular + 1
@@ -167,8 +176,7 @@ class Molad:
         multipliers.append(cycles)
         multipliers.append(regular)
         multipliers.append(leap)
-        multipliers.append(month - 1)
-        # for the beginning of the month, so Tishrei is 0, etc.
+        multipliers.append(month - 1)  # for the beginning of the month, so Tishrei is 0, etc.
         return self.sumup(multipliers)
 
     def get_numeric_month_year(self, date, changeAdarOrder=True):
