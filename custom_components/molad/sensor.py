@@ -2,7 +2,7 @@ import logging
 import datetime
 from homeassistant.components.sensor import ENTITY_ID_FORMAT
 from homeassistant.helpers.entity import Entity, async_generate_entity_id
-from .molad import Molad
+from molad.helper import MoladHelper
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -23,7 +23,6 @@ async def async_setup_entry(hass, config, async_add_entities, discovery_info=Non
 
 
 class BaseSensor(Entity):
-
     _state = None
     _attributes = {}
     config = {}
@@ -39,7 +38,7 @@ class BaseSensor(Entity):
         self._state = None
         self._attributes = {}
         self.config = hass.config
-        self.molad = Molad(self.config)
+        self.molad = MoladHelper(self.config)
 
         self.update_sensor()
 
@@ -67,18 +66,29 @@ class MoladSensor(BaseSensor):
         BaseSensor.__init__(self, "molad", hass)
 
     def update_sensor(self):
-
         d = datetime.date.today()
-
         m = self.molad.get_molad(d)
-        rc = self.molad.get_rosh_chodesh_days(d)
-        sm = self.molad.is_shabbos_mevorchim(d)
-        a = self.molad.get_attributes(m, sm, rc)
 
-        self._state = m["text"]
-        self._attributes = a
+        self._state = m.molad.friendly
+        self._attributes = self.get_attributes_for_molad(m)
 
         _LOGGER.info("Molad Updated")
+
+    def get_attributes_for_molad(self, m):
+        return {
+            "icon": "mdi:moon-waxing-crescent",
+            "friendly_name": "Molad",
+            "day": m.molad.day,
+            "hours": m.molad.hours,
+            "minutes": m.molad.minutes,
+            "am_or_pm": m.molad.am_or_pm,
+            "chalakim": m.molad.chalakim,
+            "friendly": m.molad.friendly,
+            "rosh_chodesh": m.rosh_chodesh.text,
+            "rosh_chodesh_days": m.rosh_chodesh.days,
+            "is_shabbos_mevorchim": m.is_shabbos_mevorchim,
+            "month_name": m.rosh_chodesh.month,
+        }
 
     @property
     def name(self) -> str:
@@ -95,7 +105,6 @@ class IsShabbosMevorchimSensor(BaseSensor):
         BaseSensor.__init__(self, "is_shabbos_mevorchim", hass)
 
     def update_sensor(self):
-
         d = datetime.date.today()
 
         sm = self.molad.is_shabbos_mevorchim(d)
