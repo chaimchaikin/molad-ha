@@ -1,15 +1,15 @@
 {
   "domain": "molad",
   "name": "Molad Sensor",
-  "documentation": "https://github.com/chaimchaikin/molad-hacs",
-  "config_flow": true,
-  "version": "0.2.1",
   "codeowners": [
     "@chaimchaikin"
   ],
+  "config_flow": true,
+  "documentation": "https://github.com/chaimchaikin/molad-hacs",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/chaimchaikin/molad-hacs/issues",
   "requirements": [
     "molad==0.0.4"
   ],
-  "issue_tracker": "https://github.com/chaimchaikin/molad-hacs/issues",
-  "iot_class": "local_polling"
+  "version": "0.3.1"
 }
