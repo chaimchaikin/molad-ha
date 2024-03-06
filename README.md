@@ -19,7 +19,7 @@ Use [HACS](https://github.com/hacs/integration) or download the molad directory 
 
 ## Usage
 The timezone and location are fetched from your Home Assistant configuration.
-This app adds two sensors exposing Molad details for the upcoming Jewish Month:
+This app adds three sensors exposing Molad details for the upcoming Jewish Month:
 
 1. `sensor.molad` with the upcoming Molad as the value and more detailed properties as attributes:
 
@@ -34,6 +34,9 @@ This app adds two sensors exposing Molad details for the upcoming Jewish Month:
 | rosh_chodesh | Days of the week of next Rosh Chodesh | Monday & Tuesday |
 | rosh_chodesh_days | List of days of the week of next Rosh Chodesh | Monday, Tuesday |
 | is_shabbos_mevorchim |  `true` if today is Shabbos Mevorchim, `false` if not | false |
+| is_upcoming_shabbos_mevorchim |  `true` if the upcoming Shabbos is Shabbos Mevorchim, `false` if not | false |
 | month_name | Month name of next Rosh Chodesh | Tammuz |
 
 2. `sensor.is_shabbos_mevorchim` - `true` if today is Shabbos Mevorchim, `false` if not
+
+3. `sensor.is_upcoming_shabbos_mevorchim` - `true` if the upcoming Shabbos is Shabbos Mevorchim, `false` if not (known limitation: this sensor works purely on secular days of the week and will count the upcoming Shabbos from Sunday and not Motzei Shabbos)

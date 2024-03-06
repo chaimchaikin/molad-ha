@@ -17,6 +17,7 @@ async def async_setup_entry(hass, config, async_add_entities, discovery_info=Non
     entities = [
         MoladSensor(hass),
         IsShabbosMevorchimSensor(hass),
+        IsUpcomingShabbosMevorchimSensor(hass),
     ]
 
     async_add_entities(entities, False)
@@ -87,6 +88,7 @@ class MoladSensor(BaseSensor):
             "rosh_chodesh": m.rosh_chodesh.text,
             "rosh_chodesh_days": m.rosh_chodesh.days,
             "is_shabbos_mevorchim": m.is_shabbos_mevorchim,
+            "is_upcoming_shabbos_mevorchim": m.is_upcoming_shabbos_mevorchim,
             "month_name": m.rosh_chodesh.month,
         }
 
@@ -116,6 +118,28 @@ class IsShabbosMevorchimSensor(BaseSensor):
     @property
     def name(self) -> str:
         return "Is Shabbos Mevorchim"
+
+    @property
+    def icon(self):
+        """Icon to use in the frontend"""
+        return "mdi:moon-waxing-crescent"
+
+class IsUpcomingShabbosMevorchimSensor(BaseSensor):
+    def __init__(self, hass):
+        BaseSensor.__init__(self, "is_upcoming_shabbos_mevorchim", hass)
+
+    def update_sensor(self):
+        d = datetime.date.today()
+
+        sm = self.molad.is_upcoming_shabbos_mevorchim(d)
+
+        self._state = sm
+
+        _LOGGER.info("Is Upcoming Shabbos Mevorchim Updated")
+
+    @property
+    def name(self) -> str:
+        return "Is Upcoming Shabbos Mevorchim"
 
     @property
     def icon(self):

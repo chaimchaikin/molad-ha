@@ -9,7 +9,7 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/chaimchaikin/molad-hacs/issues",
   "requirements": [
-    "molad==0.0.6"
+    "molad==0.0.7"
   ],
-  "version": "0.3.3"
+  "version": "0.3.4"
 }
