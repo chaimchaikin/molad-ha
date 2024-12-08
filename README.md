@@ -33,6 +33,7 @@ This app adds three sensors exposing Molad details for the upcoming Jewish Month
 | friendly | Human readable text of the next Molad occurence | Sunday, 3:36 pm and 15 chalakim |
 | rosh_chodesh | Days of the week of next Rosh Chodesh | Monday & Tuesday |
 | rosh_chodesh_days | List of days of the week of next Rosh Chodesh | Monday, Tuesday |
+| rosh_chodesh_dates | List of dates of next Rosh Chodesh | 2024-12-31, 2025-01-01 |
 | is_shabbos_mevorchim |  `true` if today is Shabbos Mevorchim, `false` if not | false |
 | is_upcoming_shabbos_mevorchim |  `true` if the upcoming Shabbos is Shabbos Mevorchim, `false` if not | false |
 | month_name | Month name of next Rosh Chodesh | Tammuz |
