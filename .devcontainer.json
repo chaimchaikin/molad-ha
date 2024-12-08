@@ -1,0 +1,48 @@
+{
+	"name": "molad",
+	"image": "mcr.microsoft.com/devcontainers/python:3.12",
+	"postCreateCommand": "scripts/setup",
+	"forwardPorts": [
+		8123
+	],
+	"portsAttributes": {
+		"8123": {
+			"label": "Home Assistant",
+			"onAutoForward": "notify"
+		}
+	},
+	// Mount the path to custom_components in container path <root>/config
+	// This let's us have the structure we want <root>/custom_components/molad
+	// while at the same time have Home Assistant configuration inside <root>/config
+	// without resulting to symlinks.
+	"mounts": [
+		"source=${localWorkspaceFolder}/custom_components,target=${containerWorkspaceFolder}/config/custom_components,type=bind,consistency=cached"
+	],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"charliermarsh.ruff",
+				"github.vscode-pull-request-github",
+				"ms-python.python",
+				"ms-python.vscode-pylance",
+				"ryanluker.vscode-coverage-gutters"
+			],
+			"settings": {
+				"files.eol": "\n",
+				"editor.tabSize": 4,
+				"editor.formatOnPaste": true,
+				"editor.formatOnSave": true,
+				"editor.formatOnType": false,
+				"files.trimTrailingWhitespace": true,
+				"python.analysis.typeCheckingMode": "basic",
+				"python.analysis.autoImportCompletions": true,
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"[python]": {
+					"editor.defaultFormatter": "charliermarsh.ruff"
+				}
+			}
+		}
+	},
+	"remoteUser": "vscode",
+	"features": {}
+}
