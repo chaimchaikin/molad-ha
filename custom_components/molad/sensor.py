@@ -87,6 +87,7 @@ class MoladSensor(BaseSensor):
             "friendly": m.molad.friendly,
             "rosh_chodesh": m.rosh_chodesh.text,
             "rosh_chodesh_days": m.rosh_chodesh.days,
+            "rosh_chodesh_dates": m.rosh_chodesh.gdays,
             "is_shabbos_mevorchim": m.is_shabbos_mevorchim,
             "is_upcoming_shabbos_mevorchim": m.is_upcoming_shabbos_mevorchim,
             "month_name": m.rosh_chodesh.month,
@@ -123,6 +124,7 @@ class IsShabbosMevorchimSensor(BaseSensor):
     def icon(self):
         """Icon to use in the frontend"""
         return "mdi:moon-waxing-crescent"
+
 
 class IsUpcomingShabbosMevorchimSensor(BaseSensor):
     def __init__(self, hass):
