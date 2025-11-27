@@ -67,7 +67,7 @@ class MoladSensor(BaseSensor):
         BaseSensor.__init__(self, "molad", hass)
 
     def update_sensor(self):
-        d = datetime.date.today()
+        d = datetime.datetime.today()
         m = self.molad.get_molad(d)
 
         self._state = m.molad.friendly
@@ -108,7 +108,7 @@ class IsShabbosMevorchimSensor(BaseSensor):
         BaseSensor.__init__(self, "is_shabbos_mevorchim", hass)
 
     def update_sensor(self):
-        d = datetime.date.today()
+        d = datetime.datetime.today()
 
         sm = self.molad.is_shabbos_mevorchim(d)
 
@@ -131,7 +131,7 @@ class IsUpcomingShabbosMevorchimSensor(BaseSensor):
         BaseSensor.__init__(self, "is_upcoming_shabbos_mevorchim", hass)
 
     def update_sensor(self):
-        d = datetime.date.today()
+        d = datetime.datetime.today()
 
         sm = self.molad.is_upcoming_shabbos_mevorchim(d)
 
